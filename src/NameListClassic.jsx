@@ -1,4 +1,5 @@
 import { useState } from "react";
+import NameItem from "./NameItem";
 
 export default function NameListClassic() {
 
@@ -6,12 +7,13 @@ export default function NameListClassic() {
     const [inputText, setInputText] = useState("");
 
     function addNameHandler() {
-        setNames(prev => ([...prev, inputText]));
+        const newName = { id: Date.now(), name: inputText };
+        setNames(prev => ([...prev, newName]));
         setInputText("");
     }
 
-    function deleteHandler(deleteIndex) {
-        setNames((prev) => prev.filter((name, i) => i !== deleteIndex));
+    function deleteHandler(idToDelete) {
+        setNames((prev) => prev.filter((item) => item.id !== idToDelete));
     }
 
     return (
@@ -23,15 +25,12 @@ export default function NameListClassic() {
             <button onClick={addNameHandler}>Add</button>
             <div>
                 {names.length === 0 ? (<p>No Names yet</p>) : (
-                    
-                        names.map((name, index) => (
-                            <p key={index}>{name}
-                                <button
-                                    onClick={() => deleteHandler(index)}>Delete</button>
-                            </p>
-
+                        names.map((item) => (
+                            <NameItem 
+                            key={item.id}
+                            name={item.name}
+                            onDelete={() => deleteHandler(item.id)}/>
                         ))
-                    
                 )}
 
             </div>
