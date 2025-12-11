@@ -5,6 +5,7 @@ export default function NameListClassic() {
 
     const [names, setNames] = useState([]);
     const [inputText, setInputText] = useState("");
+    const [editingId, setEditingId] = useState(null);
 
     function addNameHandler() {
         const newName = { id: Date.now(), name: inputText };
@@ -14,6 +15,19 @@ export default function NameListClassic() {
 
     function deleteHandler(idToDelete) {
         setNames((prev) => prev.filter((item) => item.id !== idToDelete));
+    }
+
+    function startEditHandler(id) {
+        setEditingId(id);
+    }
+
+    function saveEditHandler(id, newName) {
+        const updatedList = names.map(item => {
+            if (item.id === id) {
+                return { ...item, name: newName }
+            }
+            return item;
+        })
     }
 
     return (
@@ -29,7 +43,11 @@ export default function NameListClassic() {
                             <NameItem 
                             key={item.id}
                             name={item.name}
-                            onDelete={() => deleteHandler(item.id)}/>
+                            onDelete={() => deleteHandler(item.id)}
+                            onStartEdit={() => startEditHandler(item.id)}
+                            isEditing={item.id === editingId}
+                            onSave={(newName) => saveEditHandler(item.id, newName)}
+                            />
                         ))
                 )}
 
