@@ -27,7 +27,9 @@ export default function NameListClassic() {
                 return { ...item, name: newName }
             }
             return item;
-        })
+        });
+        setNames(updatedList);
+        setEditingId(null);
     }
 
     return (
