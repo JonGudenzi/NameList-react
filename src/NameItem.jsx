@@ -1,13 +1,15 @@
 import { useState } from "react";
 
-export default function NameItem({ name, onDelete, onStartEdit, isEditing, onSave }) {
+export default function NameItem({ name, onDelete, onStartEdit, isEditing, onSave, status, onToggleStatus }) {
 
     const [editText, setEditText] = useState(name);
 
     return (
         <div>
             {!isEditing ? (
-                <p>{name}
+                <p>{name}{" - "}{status}
+
+                <button onClick={onToggleStatus}>{status === "open" ? "close" : "reopen"}</button>
                     {isEditing && " (editing)"}
                     <button
                         onClick={onStartEdit}>Edit</button>
