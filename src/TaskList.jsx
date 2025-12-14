@@ -1,5 +1,7 @@
 import { useState } from "react";
 import TaskItem from "./TaskItem";
+import FilterButtons from "./FIlterButtons";
+import TaskSummary from "./TaskSummary";
 
 export default function TaskList() {
 
@@ -85,23 +87,14 @@ export default function TaskList() {
                 value={inputText}
                 onChange={e => setInputText(e.target.value)} />
             <button onClick={addTaskHandler}>Add</button>
-            <div>
-                <button onClick={() => setViewFilter("all")}>
-                    All {viewFilter === "all" && "✓"}
-                </button>
+            <FilterButtons 
+            viewFilter={viewFilter}
+            setViewFilter={setViewFilter}/>
 
-                <button onClick={() => setViewFilter("open")}>
-                    Open {viewFilter === "open" && "✓"}
-                </button>
-
-                <button onClick={() => setViewFilter("closed")}>
-                    Closed {viewFilter === "closed" && "✓"}
-                </button>
-            </div>
-            <p>
-                Showing {visibleTasks.length} of {tasks.length}
-            </p>
-
+            <TaskSummary 
+            visibleCount={visibleTasks.length}
+            totalCount={tasks.length}/>
+            
             <div>
                 {visibleTasks.length === 0 ? (<p>No tasks yet</p>) : (
                     visibleTasks.map((item) => (
