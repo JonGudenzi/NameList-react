@@ -66,13 +66,17 @@ export default function TaskList() {
             ? tasks
             : tasks.filter((item) => item.status === viewFilter);
 
+    const hasClosedTasks =
+        tasks.some((item) => item.status === "closed");
+
     return (
         <div>
-            <button onClick={clearClosedTasksHandler}>Clear all closed tasks</button>
+            <button onClick={clearClosedTasksHandler}
+                disabled={!hasClosedTasks}>Clear all closed tasks</button>
             <h2>Task List</h2>
             <input
                 value={inputText}
-                onChange={e => setInputText(e.target.value)} /> 
+                onChange={e => setInputText(e.target.value)} />
             <button onClick={addTaskHandler}>Add</button>
             <div>
                 <button onClick={() => setViewFilter("all")}>
