@@ -65,6 +65,7 @@ export default function TaskList() {
         if (!confirmed) return;
 
         setTasks((prev) => prev.filter((item) => item.status !== "closed"));
+        setViewFilter("all");
     }
 
     const visibleTasks =
@@ -114,6 +115,7 @@ export default function TaskList() {
                             onSave={(newTask) => saveEditHandler(item.id, newTask)}
                             status={item.status}
                             onToggleStatus={() => toggleStatusHandler(item.id)}
+                            disableEdit={editingId !== null && editingId !== item.id}
                         />
                     ))
                 )}

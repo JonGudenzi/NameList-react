@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function TaskItem({ task, onDelete, onStartEdit, isEditing, onSave, onCancel, status, onToggleStatus }) {
+export default function TaskItem({ task, onDelete, onStartEdit, isEditing, onSave, onCancel, status, onToggleStatus, disableEdit }) {
 
     const [editText, setEditText] = useState(task);
 
@@ -15,9 +15,10 @@ export default function TaskItem({ task, onDelete, onStartEdit, isEditing, onSav
             {!isEditing ? (
                 <p>{task}{" - "}{status}
 
-                    <button onClick={onToggleStatus}>{status === "open" ? "close" : "reopen"}</button>
+                    <button onClick={onToggleStatus}>{status === "open" ? "close" : "Reopen"}</button>
                     <button
-                        onClick={onStartEdit}>Edit</button>
+                        onClick={onStartEdit}
+                        disabled={disableEdit}>Edit</button>
                     <button
                         onClick={onDelete}>Delete
                     </button>
