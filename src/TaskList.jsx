@@ -1,22 +1,18 @@
 import { useState } from "react";
 import TaskItem from "./TaskItem";
-import FilterButtons from "./FIlterButtons";
+import FilterButtons from "./FilterButtons";
 import TaskSummary from "./TaskSummary";
+import AddTaskForm from "./AddTaskForm";
 
 export default function TaskList() {
 
     const [tasks, setTasks] = useState([]);
-    const [inputText, setInputText] = useState("");
     const [editingId, setEditingId] = useState(null);
     const [viewFilter, setViewFilter] = useState("all");
 
-    function addTaskHandler() {
-        const trimmed = inputText.trim();
-        if (trimmed === "") return;
-
-        const newTitle = { id: Date.now(), title: trimmed, status: "open" };
+    function addTaskHandler(title) {
+        const newTitle = { id: Date.now(), title, status: "open" };
         setTasks(prev => ([...prev, newTitle]));
-        setInputText("");
     }
 
     function deleteHandler(idToDelete) {
@@ -83,10 +79,10 @@ export default function TaskList() {
             <button onClick={clearClosedTasksHandler}
                 disabled={!hasClosedTasks}>Clear all closed tasks</button>
             <h2>Task List</h2>
-            <input
-                value={inputText}
-                onChange={e => setInputText(e.target.value)} />
-            <button onClick={addTaskHandler}>Add</button>
+
+            <AddTaskForm
+            onAddTask={addTaskHandler} />
+
             <FilterButtons 
             viewFilter={viewFilter}
             setViewFilter={setViewFilter}/>
