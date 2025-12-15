@@ -11,31 +11,59 @@ export default function TaskItem({ task, onDelete, onStartEdit, isEditing, onSav
     }, [isEditing, task]);
 
     return (
-        <div>
-            {!isEditing ? (
-                <p>{task}{" - "}{status}
+  <div className="taskRow">
+    {!isEditing ? (
+      <>
+        <div className="taskText">
+          <span className="taskTitle">{task} {" - "}</span>
+<span className={`pill ${status}`}>{status}</span>
 
-                    <button onClick={onToggleStatus}>{status === "open" ? "close" : "Reopen"}</button>
-                    <button
-                        onClick={onStartEdit}
-                        disabled={disableEdit}>Edit</button>
-                    <button
-                        onClick={onDelete}>Delete
-                    </button>
-                </p>
-            ) : (
-                <>
-                    <input
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)} />
-                    <button
-                        onClick={() => onSave(editText)}>Save</button>
-                    <button onClick={() => {
-                        setEditText(task);
-                        onCancel();
-                    }}>Cancel</button>
-                </>
-            )}
         </div>
-    );
+
+        <div className="actions">
+          <button className="btn" onClick={onToggleStatus}>
+            {status === "open" ? "Close" : "Reopen"}
+          </button>
+
+          <button
+            className="btn"
+            onClick={onStartEdit}
+            disabled={disableEdit}
+          >
+            Edit
+          </button>
+
+          <button className="btn danger" onClick={onDelete}>
+            Delete
+          </button>
+        </div>
+      </>
+    ) : (
+      <>
+        <input
+          className="textInput"
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+        />
+
+        <div className="actions">
+          <button className="btn" onClick={() => onSave(editText)}>
+            Save
+          </button>
+
+          <button
+            className="btn"
+            onClick={() => {
+              setEditText(task);
+              onCancel();
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </>
+    )}
+  </div>
+);
+
 }

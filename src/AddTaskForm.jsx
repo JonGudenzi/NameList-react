@@ -10,12 +10,18 @@ export default function AddTaskForm({ onAddTask }) {
     }
 
     return (
-        <>
-            <input
-                value={inputText}
-                onChange={e => setInputText(e.target.value)} />
-            <button
-                onClick={handleAddClick}>Add</button>
-        </>
-    )
+  <div className="addForm">
+    <input
+      className="textInput"
+      value={inputText}
+      onChange={(e) => setInputText(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") handleAddClick();
+      }}
+      placeholder="Add a task..."
+    />
+    <button className="primaryBtn" onClick={handleAddClick}>Add</button>
+  </div>
+);
+
 }

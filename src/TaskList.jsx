@@ -75,41 +75,55 @@ export default function TaskList() {
         tasks.some((item) => item.status === "closed");
 
     return (
-        <div>
-            <button onClick={clearClosedTasksHandler}
-                disabled={!hasClosedTasks}>Clear all closed tasks</button>
-            <h2>Task List</h2>
+  <div className="app">
+    <div className="card">
+      <div className="topRow">
+        <button
+          className="dangerBtn"
+          onClick={clearClosedTasksHandler}
+          disabled={!hasClosedTasks}
+        >
+          Clear all closed tasks
+        </button>
+      </div>
 
-            <AddTaskForm
-            onAddTask={addTaskHandler} />
+      <h2 className="title">Task List</h2>
 
-            <FilterButtons 
-            viewFilter={viewFilter}
-            setViewFilter={setViewFilter}/>
+      <div className="addRow">
+        <AddTaskForm onAddTask={addTaskHandler} />
+      </div>
 
-            <TaskSummary 
-            visibleCount={visibleTasks.length}
-            totalCount={tasks.length}/>
-            
-            <div>
-                {visibleTasks.length === 0 ? (<p>No tasks yet</p>) : (
-                    visibleTasks.map((item) => (
-                        <TaskItem
-                            key={item.id}
-                            task={item.title}
-                            onDelete={() => deleteHandler(item.id)}
-                            onStartEdit={() => startEditHandler(item.id)}
-                            isEditing={item.id === editingId}
-                            onCancel={cancelEditHandler}
-                            onSave={(newTask) => saveEditHandler(item.id, newTask)}
-                            status={item.status}
-                            onToggleStatus={() => toggleStatusHandler(item.id)}
-                            disableEdit={editingId !== null && editingId !== item.id}
-                        />
-                    ))
-                )}
+      <div className="filterRow">
+        <FilterButtons viewFilter={viewFilter} setViewFilter={setViewFilter} />
+      </div>
 
-            </div>
-        </div>
-    );
+      <TaskSummary
+        visibleCount={visibleTasks.length}
+        totalCount={tasks.length}
+      />
+
+      <div className="list">
+        {visibleTasks.length === 0 ? (
+          <p className="muted">No tasks yet</p>
+        ) : (
+          visibleTasks.map((item) => (
+            <TaskItem
+              key={item.id}
+              task={item.title}
+              status={item.status}
+              onToggleStatus={() => toggleStatusHandler(item.id)}
+              onStartEdit={() => startEditHandler(item.id)}
+              onDelete={() => deleteHandler(item.id)}
+              isEditing={item.id === editingId}
+              onCancel={cancelEditHandler}
+              onSave={(newTask) => saveEditHandler(item.id, newTask)}
+              disableEdit={editingId !== null && editingId !== item.id}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  </div>
+);
+
 }
