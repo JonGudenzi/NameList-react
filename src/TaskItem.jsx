@@ -36,8 +36,6 @@ function handleEditKeyDown(e) {
   }
 }
 
-
-
 return (
   <div className="taskRow">
     {!isEditing ? (

@@ -9,8 +9,12 @@ export default function FilterButtons({ viewFilter, setViewFilter }) {
                     Open {viewFilter === "open" && "✓"}
                 </button>
 
-                <button onClick={() => setViewFilter("closed")}>
-                    Closed {viewFilter === "closed" && "✓"}
+                <button onClick={() => setViewFilter("done")}>
+                    Closed {viewFilter === "done" && "✓"}
+                </button>
+
+                <button onClick={() => setViewFilter("archived")}>
+                    Archived {viewFilter === "archived" && "✓"}
                 </button>
             </div>
     );

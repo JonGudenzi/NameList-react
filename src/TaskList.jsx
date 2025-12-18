@@ -61,15 +61,17 @@ export default function TaskList() {
         );
     }
 
+    const hasArchivedTasks =
+        tasks.some((item) => item.status === "archived");
 
-    function clearClosedTasksHandler() {
-        if (!hasClosedTasks) return;
+    function clearArchivedTasksHandler() {
+        if (!hasArchivedTasks) return;
         const confirmed = window.confirm(
-            "Are you sure you want to clear all closed tasks?"
+            "Are you sure you want to delete all archived tasks?"
         );
         if (!confirmed) return;
 
-        setTasks((prev) => prev.filter((item) => item.status !== "closed"));
+        setTasks((prev) => prev.filter((item) => item.status !== "archived"));
         setViewFilter("all");
     }
 
@@ -78,20 +80,14 @@ export default function TaskList() {
             ? tasks
             : tasks.filter((item) => item.status === viewFilter);
 
-    const hasClosedTasks =
-        tasks.some((item) => item.status === "closed");
-
     return (
         <div className="app">
             <div className="card">
                 <div className="topRow">
                     <button
                         className="dangerBtn"
-                        onClick={clearClosedTasksHandler}
-                        disabled={!hasClosedTasks}
-                    >
-                        Clear all closed tasks
-                    </button>
+                        onClick={clearArchivedTasksHandler}
+                        disabled={!hasArchivedTasks} >Clear Archived</button>
                 </div>
 
                 <h2 className="title">Task List</h2>
