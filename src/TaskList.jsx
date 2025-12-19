@@ -65,6 +65,25 @@ export default function TaskList() {
     const hasArchivedTasks =
         tasks.some((item) => item.status === "archived");
 
+
+
+    function undoLastArchived() {
+        setTasks((prev) => {
+            const lastArchivedTask =
+                prev.filter((item) => item.status === "archived")
+                    .sort((a, b) => b.id - a.id)[0];
+
+            if (!lastArchivedTask) return prev;
+
+            return prev.map((item) => {
+                if (item.id === lastArchivedTask.id) {
+                    return { ...item, status: "done" };
+                }
+                return item;
+            });
+        });
+    }
+
     const openCount = tasks.filter((item) => item.status === "open").length;
     const doneCount = tasks.filter((item) => item.status === "done").length;
     const archivedCount = tasks.filter((item) => item.status === "archived").length;
@@ -93,7 +112,12 @@ export default function TaskList() {
                         className="dangerBtn"
                         onClick={clearArchivedTasksHandler}
                         disabled={!hasArchivedTasks} >Clear Archived</button>
+                        <button
+                        className="dangerBtn"
+                        onClick={undoLastArchived}
+                        disabled={!hasArchivedTasks} >Undo Last Archived</button>
                 </div>
+                
 
                 <h2 className="title">Task List</h2>
 
