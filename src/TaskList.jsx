@@ -64,6 +64,11 @@ export default function TaskList() {
     const hasArchivedTasks =
         tasks.some((item) => item.status === "archived");
 
+    const openCount = tasks.filter((item) => item.status === "open").length;
+    const doneCount = tasks.filter((item) => item.status === "done").length;
+    const archivedCount = tasks.filter((item) => item.status === "archived").length;
+
+
     function clearArchivedTasksHandler() {
         if (!hasArchivedTasks) return;
         const confirmed = window.confirm(
@@ -104,6 +109,14 @@ export default function TaskList() {
                     visibleCount={visibleTasks.length}
                     totalCount={tasks.length}
                 />
+
+                <div className="statusCounts">
+                    <span>Open: {openCount}</span> {" | "}
+                    <span>Done: {doneCount}</span> {" | "}
+                    <span>Archived: {archivedCount}</span> {" | "}
+                </div>
+
+
 
                 <div className="list">
                     {visibleTasks.length === 0 ? (
