@@ -12,6 +12,15 @@ export default function TaskList() {
     const [viewFilter, setViewFilter] = useState("all");
 
     function addTaskHandler(title) {
+        const normalized = title.trim().toLowerCase();
+        const isDuplicate = tasks.some((item) => (
+            item.title.trim().toLowerCase() === normalized
+        ));
+
+        if (isDuplicate) {
+            window.alert("This item already exsists");
+            return;
+        }
         const newTitle = { id: Date.now(), title, status: "open" };
         setTasks(prev => ([...prev, newTitle]));
     }
@@ -25,18 +34,25 @@ export default function TaskList() {
     }
 
     function saveEditHandler(id, newTask) {
-        const trimmed = newTask.trim();
-        if (trimmed === "") return;
-
-        const updatedList = tasks.map(item => {
+        const normalized = newTask.trim().toLowerCase();
+        const isDuplicate = tasks.some((item) => (
+            item.title.trim().toLowerCase() === normalized && item.id !== id
+        ));
+        if (normalized === "") return;
+        else if (isDuplicate) {
+            window.alert("This item already exsists");
+            return;
+        }
+        setTasks(prev => prev.map(item => {
             if (item.id === id) {
-                return { ...item, title: trimmed }
+                return { ...item, title: normalized }
             }
             return item;
-        });
-        setTasks(updatedList);
+        }));
         setEditingId(null);
     }
+
+
 
     function cancelEditHandler() {
         setEditingId(null);
@@ -113,7 +129,7 @@ export default function TaskList() {
     }
 
     function restoreAllArchived() {
-        setTasks((prev) => 
+        setTasks((prev) =>
             prev.map((item) => {
                 if (item.status === "archived") {
                     return { ...item, status: "done" };
@@ -121,7 +137,7 @@ export default function TaskList() {
                 return item;
             })
         );
-        setViewFilter("done");a
+        setViewFilter("done");
     }
 
     const visibleTasks =
